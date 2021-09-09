@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		02BCD42B26B81F01003F3144 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BCD42A26B81F01003F3144 /* AppDelegate.swift */; };
 		02BCD42D26B81F01003F3144 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BCD42C26B81F01003F3144 /* SceneDelegate.swift */; };
-		02BCD42F26B81F01003F3144 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BCD42E26B81F01003F3144 /* ViewController.swift */; };
+		02BCD42F26B81F01003F3144 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BCD42E26B81F01003F3144 /* TableViewController.swift */; };
 		02BCD43226B81F01003F3144 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02BCD43026B81F01003F3144 /* Main.storyboard */; };
 		02BCD43426B81F03003F3144 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02BCD43326B81F03003F3144 /* Assets.xcassets */; };
 		02BCD43726B81F03003F3144 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02BCD43526B81F03003F3144 /* LaunchScreen.storyboard */; };
@@ -34,7 +34,7 @@
 		02BCD42726B81F01003F3144 /* TheMovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheMovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		02BCD42A26B81F01003F3144 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		02BCD42C26B81F01003F3144 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		02BCD42E26B81F01003F3144 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		02BCD42E26B81F01003F3144 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		02BCD43126B81F01003F3144 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		02BCD43326B81F03003F3144 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		02BCD43626B81F03003F3144 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -87,8 +87,7 @@
 		02BCD42926B81F01003F3144 /* TheMovieDB */ = {
 			isa = PBXGroup;
 			children = (
-				1D3E623D26E7F57600496964 /* Facade.swift */,
-				1D7AA7D826DFF9A7004260FE /* Network */,
+				1D7AA7D826DFF9A7004260FE /* Libraries */,
 				1D7AA7D226DFBF7E004260FE /* Controller */,
 				1D7AA7D126DFBF74004260FE /* Model */,
 				1D7AA7D026DFBF6A004260FE /* View */,
@@ -130,7 +129,7 @@
 		1D7AA7D226DFBF7E004260FE /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				02BCD42E26B81F01003F3144 /* ViewController.swift */,
+				02BCD42E26B81F01003F3144 /* TableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -143,12 +142,13 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		1D7AA7D826DFF9A7004260FE /* Network */ = {
+		1D7AA7D826DFF9A7004260FE /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				1D3E623D26E7F57600496964 /* Facade.swift */,
 				1D7AA7D926DFF9C0004260FE /* NetworkManager.swift */,
 			);
-			path = Network;
+			path = Libraries;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -252,7 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D7AA7DA26DFF9C0004260FE /* NetworkManager.swift in Sources */,
-				02BCD42F26B81F01003F3144 /* ViewController.swift in Sources */,
+				02BCD42F26B81F01003F3144 /* TableViewController.swift in Sources */,
 				02BCD42B26B81F01003F3144 /* AppDelegate.swift in Sources */,
 				1D3E623E26E7F57600496964 /* Facade.swift in Sources */,
 				1D7AA7D526DFBFA9004260FE /* MovieTableViewCell.swift in Sources */,

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Manager {
-    func retrieveMovies(completion: @escaping (Result<intermediaryJson?, Error>) -> Void)
+    func retrieveMovies(completion: @escaping (Result<intermediaryJson, Error>) -> Void)
 }
 
 enum NetworkError: Error {
@@ -18,7 +18,7 @@ enum NetworkError: Error {
 }
 
 class NetworkManager: Manager {
-    func retrieveMovies(completion: @escaping (Result<intermediaryJson?, Error>) -> Void) {
+    func retrieveMovies(completion: @escaping (Result<intermediaryJson, Error>) -> Void) {
         guard let url = URL(string: "https://api.themoviedb.org/3/movie/top_rated?api_key=d0b82d9ad21c5aa4e12d4cf1acfb1155&language=en-US&page=1") else {
             completion(.failure(NetworkError.urlError))
             return
@@ -41,6 +41,4 @@ class NetworkManager: Manager {
         }
         dataTask.resume()
     }
-    //crear cache para guardar imagenes 
-    
 }

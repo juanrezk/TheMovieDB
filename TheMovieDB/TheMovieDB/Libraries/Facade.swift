@@ -8,16 +8,16 @@
 import Foundation
 
 final class Facade {
-    // 1
+   
+    //Singleton
     static let shared = Facade()
-    // 2
     private init() {
         
     }
     
     private let networkManager = NetworkManager()
     
-    func retrieveData(result: @escaping (Result<intermediaryJson?, Error>) -> Void) {
+    func retrieveData(result: @escaping (Result<intermediaryJson, Error>) -> Void) {
         networkManager.retrieveMovies(completion: result)
     }
     
