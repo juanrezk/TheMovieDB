@@ -29,12 +29,9 @@ class TableViewController: UIViewController {
                 DispatchQueue.main.async {
                     switch self?.deviceIdiom {
                     case .phone:
-                        self?.tableview.isHidden = false
-                        self?.tableview.reloadData()
-                        
+                        self?.showTable()
                     default:
-                        self?.collectionView?.isHidden = false
-                        self?.collectionView?.reloadData()
+                        self?.showCollection()
                     }
                 }
             case .failure(_):
@@ -63,17 +60,39 @@ class TableViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableview.frame = view.bounds
-        tableview.backgroundColor = UIColor(red: 26/255, green: 178/255, blue: 201/255, alpha: 1)
+        tableview.backgroundColor = UIColor(red: 8/255, green: 96/255, blue: 120/255, alpha: 1)
         tableview.rowHeight = 150
+    }
+    
+    func showTable() {
+        tableview.isHidden = false
+        tableview.reloadData()
+    }
+    
+    func showCollection() {
+        collectionView?.isHidden = false
+        collectionView?.reloadData()
     }
     
     func configureTableView() {
         getDataFromFacade()
         view.addSubview(tableview)
+        tableview.layer.cornerRadius = 5
+        tableview.clipsToBounds = true
+        setTableViewConstraints()
         tableview.register(MovieTableViewCell.self, forCellReuseIdentifier: "movieCell")
         tableview.dataSource = self
         tableview.delegate = self
+    }
+    
+    func setTableViewConstraints() {
+        tableview.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableview.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 10),
+            tableview.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2/3),
+            tableview.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            tableview.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
     }
     
     func configureCollectionView() {
@@ -86,13 +105,28 @@ class TableViewController: UIViewController {
             return
         }
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
-        collectionView.backgroundColor =  UIColor(red: 26/255, green: 178/255, blue: 201/255, alpha: 1)
+        collectionView.backgroundColor =  UIColor(red: 8/255, green: 96/255, blue: 120/255, alpha: 1)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.frame = view.bounds
         view.addSubview(collectionView)
+        setCollectionViewConstraints()
         getDataFromFacade()
     }
+    
+    func setCollectionViewConstraints() {
+        guard let collectionView = collectionView else {
+            return
+        }
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 10),
+            collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2/3),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            collectionView.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
+    }
+    
     
     func goToDV(indexPath: IndexPath) {
         let movie = movies[indexPath.row]
@@ -147,35 +181,6 @@ extension TableViewController: UICollectionViewDelegate, UICollectionViewDataSou
         cell.movieTitle.text = movie.title
         cell.postImageURL = "\(apiUrl)\(movie.backdropPath ?? "")"
         return cell
-    }
-}
-
-//I am almost convinced that this piece of code should be put in network class
-let imageCache = NSCache<NSString, AnyObject>()
-extension UIImage {
-    static func loadImageUsingCacheWithUrlString(_ urlString: String, completion: @escaping (UIImage) -> Void) {
-        if let cachedImage = imageCache.object(forKey: urlString as NSString) as? UIImage {
-            completion(cachedImage)
-        }
-        
-        //No cache, so create new one and set image
-        guard let url = URL(string: urlString) else{
-            return
-        }
-        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
-            if let error = error {
-                print(error)
-                return
-            }
-            
-            DispatchQueue.main.async(execute: {
-                if let downloadedImage = UIImage(data: data!) {
-                    imageCache.setObject(downloadedImage, forKey: urlString as NSString)
-                    completion(downloadedImage)
-                }
-            })
-            
-        }).resume()
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol Manager {
     func retrieveMovies(completion: @escaping (Result<intermediaryJson, Error>) -> Void)
@@ -41,4 +42,31 @@ class NetworkManager: Manager {
         }
         dataTask.resume()
     }
+}
+let imageCache = NSCache<NSString, AnyObject>()
+extension UIImage {
+static func loadImageUsingCacheWithUrlString(_ urlString: String, completion: @escaping (UIImage) -> Void) {
+    if let cachedImage = imageCache.object(forKey: urlString as NSString) as? UIImage {
+        completion(cachedImage)
+    }
+    
+    //No cache, so create new one and set image
+    guard let url = URL(string: urlString) else{
+        return
+    }
+    URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
+        if let error = error {
+            print(error)
+            return
+        }
+        
+        DispatchQueue.main.async(execute: {
+            if let downloadedImage = UIImage(data: data!) {
+                imageCache.setObject(downloadedImage, forKey: urlString as NSString)
+                completion(downloadedImage)
+            }
+        })
+        
+    }).resume()
+}
 }

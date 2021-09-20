@@ -14,7 +14,7 @@ class MovieTableViewCell: UITableViewCell {
     var postImageURL: String? {
         didSet {
             if let url = postImageURL {
-                setImage(url: url)
+                ImageSetter.setImage(url: url, movieImage: movieImage, postImageURL: postImageURL)
             }
             else {
                 movieImage.image = nil
@@ -24,7 +24,7 @@ class MovieTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = UIColor(red: 20/255, green: 190/255, blue: 217/255, alpha: 1)
+        backgroundColor = UIColor(red: 8/255, green: 96/255, blue: 120/255, alpha: 1)
         addSubview(movieTitle)
         addSubview(movieImage)
         configureLabel()
@@ -42,17 +42,6 @@ class MovieTableViewCell: UITableViewCell {
         movieTitle.text = ""
         movieImage.image = UIImage(named: "loading")
     }
-    
-    func setImage(url:String) {
-        movieImage.image = UIImage(named: "loading")
-        UIImage.loadImageUsingCacheWithUrlString(url) { image in
-            // set the image only when we are still displaying the content for the image we finished downloading
-            if url == self.postImageURL {
-                self.movieImage.image = image
-            }
-        }
-    }
-    
 
     func configureImageView() {
         movieImage.layer.cornerRadius = 10
@@ -61,7 +50,7 @@ class MovieTableViewCell: UITableViewCell {
     
     func configureLabel() {
         movieTitle.numberOfLines = 0
-        movieTitle.font = UIFont(name: "Copperplate", size: 24)
+        movieTitle.font = UIFont(name: "Copperplate", size: 21)
         movieTitle.textColor = .white
     }
     
