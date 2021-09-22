@@ -7,21 +7,22 @@
 
 import UIKit
 
+//extension UIColor {
+//    struct MyColors {
+//        static var background: UIColor  { return UIColor(red: 8/255, green: 46/255, blue: 120/255, alpha: 1) }
+//    }
+//}
+
+enum constants {
+    static let backgroundColor = UIColor(red: 8/255, green: 46/255, blue: 120/255, alpha: 1)
+    static let margin = 10
+}
+
 class DetailViewController: UIViewController {
     var movie: Movie
-    let apiUrl = "https://image.tmdb.org/t/p/original"
     let movieImage = UIImageView()
     let movieTitle = UILabel()
-    var postImageURL: String? {
-        didSet {
-            if let url = postImageURL {
-                ImageSetter.setImage(url: url, movieImage: movieImage, postImageURL: postImageURL)
-            }
-            else {
-                movieImage.image = nil
-            }
-        }
-    }
+    
     
     init(movie: Movie) {
         self.movie = movie
@@ -29,34 +30,40 @@ class DetailViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        return nil
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpView()
+        // Do any additional setup after loading the view.
+    }
+    
+    func setUpView() {
         loadData()
-        view.backgroundColor = UIColor(red: 8/255, green: 46/255, blue: 120/255, alpha: 1)
+        imageLayout()
+        titleLayout()
+        view.backgroundColor = constants.backgroundColor
         view.addSubview(movieImage)
         view.addSubview(movieTitle)
         setImageConstraints()
         setTitleConstraints()
-        // Do any additional setup after loading the view.
-    }
-    override func viewDidLayoutSubviews() {
-        imageLayout()
-        titleLayout()
     }
     
     func loadData() {
         movieTitle.text = movie.title
-        postImageURL = "\(apiUrl)\(movie.backdropPath ?? "")"
+        if let url = movie.backdropPath {
+            movieImage.loadImage(url: url)
+        } else {
+            movieImage.image = nil
+        }
     }
     
     func setImageConstraints() {
         movieImage.translatesAutoresizingMaskIntoConstraints = false
         let margins = view.layoutMarginsGuide
         NSLayoutConstraint.activate([
-            movieImage.topAnchor.constraint(equalTo: margins.topAnchor, constant: 10),
+            movieImage.topAnchor.constraint(equalTo: margins.topAnchor, constant: CGFloat(constants.margin)),
             movieImage.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
             movieImage.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
         ])
@@ -67,7 +74,7 @@ class DetailViewController: UIViewController {
         movieTitle.translatesAutoresizingMaskIntoConstraints = false
         let margins = view.layoutMarginsGuide
         NSLayoutConstraint.activate([
-            movieTitle.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 10),
+            movieTitle.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: CGFloat(constants.margin)),
             movieTitle.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
             movieTitle.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
         ])

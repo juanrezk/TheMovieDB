@@ -13,7 +13,7 @@ class CollectionViewCell: UICollectionViewCell {
     var postImageURL: String? {
         didSet {
             if let url = postImageURL {
-                ImageSetter.setImage(url: url, movieImage: movieImage, postImageURL: postImageURL)
+                movieImage.loadImage(url: url)
             }
             else {
                 movieImage.image = nil
@@ -23,16 +23,23 @@ class CollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setUp()
+    }
+    
+    required init?(coder: NSCoder) {
+        return nil
+    }
+    
+    func setUp() {
         contentView.backgroundColor = .black
         contentView.layer.cornerRadius = 10
         contentView.clipsToBounds = true
+        titleLayout()
+        imageLayout()
         contentView.addSubview(movieTitle)
         contentView.addSubview(movieImage)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("Init(coder:) has not been implemented")
-    }
     func titleLayout() {
         movieTitle.textColor = .white
         movieTitle.numberOfLines = 0
@@ -45,12 +52,6 @@ class CollectionViewCell: UICollectionViewCell {
         movieImage.layer.cornerRadius = 10
         movieImage.clipsToBounds = true
         movieImage.frame = CGRect(x: 5, y: contentView.frame.size.height - 240, width: contentView.frame.size.height - 10, height: 190)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        titleLayout()
-        imageLayout()
     }
     
     override func prepareForReuse() {

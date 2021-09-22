@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class Facade {
    
@@ -19,6 +20,9 @@ final class Facade {
     
     func retrieveData(result: @escaping (Result<intermediaryJson, Error>) -> Void) {
         networkManager.retrieveMovies(completion: result)
+    }
+    func loadImgFromCache(_ urlString: String, result: @escaping (Result<UIImage, Error>) -> Void) {
+        networkManager.loadImageUsingCacheWithUrlString(urlString, completion: result)
     }
     
 }

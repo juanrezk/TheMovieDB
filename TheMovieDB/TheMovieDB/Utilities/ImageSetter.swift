@@ -8,14 +8,15 @@
 import Foundation
 import UIKit
 
-struct ImageSetter {
-    
-static func setImage(url: String, movieImage: UIImageView, postImageURL: String?) {
-    movieImage.image = UIImage(named: "loading")
-    UIImage.loadImageUsingCacheWithUrlString(url) { image in
-        // set the image only when we are still displaying the content for the image we finished downloading
-        if url == postImageURL {
-            movieImage.image = image
+extension UIImageView {
+    func loadImage(url: String) {
+        self.image = UIImage(named: "loading")
+    Facade.shared.loadImgFromCache(url) { (result) in
+        switch result {
+        case .success(let image):
+            self.image = image
+        case .failure(_):
+            print("Fallo")
         }
     }
 }

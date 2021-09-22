@@ -7,19 +7,20 @@
 
 import UIKit
 
-class TableViewController: UIViewController {
-    
-    
-    
+class MovieListViewController: UIViewController {
     @IBOutlet weak var logoImage: UIImageView!
-    var tableview: UITableView = {
+    lazy var tableview: UITableView = {
         let table = UITableView()
         return table
     }()
-    var collectionView: UICollectionView?
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView()
+        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
+        collectionView.backgroundColor = constants.backgroundColor
+        return collectionView
+    }()
     let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
     var movies: [Movie] = []
-    let apiUrl = "https://image.tmdb.org/t/p/w500"
     
     func getDataFromFacade() {
         Facade.shared.retrieveData { [weak self] (result) in
@@ -36,12 +37,8 @@ class TableViewController: UIViewController {
                 }
             case .failure(_):
                 DispatchQueue.main.async {
-                    switch self?.deviceIdiom {
-                    case .phone:
-                        self?.tableview.isHidden = true
-                    default:
-                        self?.collectionView?.isHidden = true
-                    }
+                    self?.tableview.isHidden = true
+                    self?.collectionView.isHidden = true
                 }
             }
         }
@@ -58,38 +55,33 @@ class TableViewController: UIViewController {
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableview.backgroundColor = UIColor(red: 8/255, green: 96/255, blue: 120/255, alpha: 1)
-        tableview.rowHeight = 150
-    }
-    
     func showTable() {
         tableview.isHidden = false
         tableview.reloadData()
     }
     
     func showCollection() {
-        collectionView?.isHidden = false
-        collectionView?.reloadData()
+        collectionView.isHidden = false
+        collectionView.reloadData()
     }
     
     func configureTableView() {
-        getDataFromFacade()
         view.addSubview(tableview)
         tableview.layer.cornerRadius = 5
         tableview.clipsToBounds = true
+        tableview.backgroundColor = constants.backgroundColor
+        tableview.rowHeight = 150
         setTableViewConstraints()
         tableview.register(MovieTableViewCell.self, forCellReuseIdentifier: "movieCell")
         tableview.dataSource = self
         tableview.delegate = self
+        getDataFromFacade()
     }
     
     func setTableViewConstraints() {
         tableview.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableview.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 10),
-            tableview.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2/3),
             tableview.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             tableview.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
@@ -101,11 +93,8 @@ class TableViewController: UIViewController {
         layout.minimumInteritemSpacing = 1
         layout.itemSize = CGSize(width: (view.frame.size.width/3) - 4, height: (view.frame.size.width/3) - 4)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        guard let collectionView = collectionView else {
-            return
-        }
+        
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
-        collectionView.backgroundColor =  UIColor(red: 8/255, green: 96/255, blue: 120/255, alpha: 1)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.frame = view.bounds
@@ -115,9 +104,6 @@ class TableViewController: UIViewController {
     }
     
     func setCollectionViewConstraints() {
-        guard let collectionView = collectionView else {
-            return
-        }
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 10),
@@ -128,14 +114,14 @@ class TableViewController: UIViewController {
     }
     
     
-    func goToDV(indexPath: IndexPath) {
+    func goToDetailView(indexPath: IndexPath) {
         let movie = movies[indexPath.row]
-        let vc = DetailViewController(movie: movie)
-        navigationController?.pushViewController(vc, animated: true)
+        let detailViewController = DetailViewController(movie: movie)
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
-extension TableViewController: UITableViewDataSource, UITableViewDelegate {
+extension MovieListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
@@ -148,19 +134,19 @@ extension TableViewController: UITableViewDataSource, UITableViewDelegate {
         return loadTableCells(cell: cell, movie: movie)
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        goToDV(indexPath: indexPath)
+        goToDetailView(indexPath: indexPath)
     }
     
     func loadTableCells(cell: MovieTableViewCell, movie: Movie) -> UITableViewCell {
         cell.movieTitle.text = movie.title
-        cell.postImageURL = "\(apiUrl)\(movie.backdropPath ?? "")"
+        cell.postImageURL = movie.backdropPath ?? ""
         return cell
     }
     
     
 }
 
-extension TableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movies.count
     }
@@ -174,12 +160,12 @@ extension TableViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        goToDV(indexPath: indexPath)
+        goToDetailView(indexPath: indexPath)
     }
     
     func loadCollectionCells(cell: CollectionViewCell, movie: Movie) -> UICollectionViewCell {
         cell.movieTitle.text = movie.title
-        cell.postImageURL = "\(apiUrl)\(movie.backdropPath ?? "")"
+        cell.postImageURL = movie.backdropPath ?? ""
         return cell
     }
 }
