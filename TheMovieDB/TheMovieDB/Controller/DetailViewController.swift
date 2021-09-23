@@ -7,22 +7,17 @@
 
 import UIKit
 
-//extension UIColor {
-//    struct MyColors {
-//        static var background: UIColor  { return UIColor(red: 8/255, green: 46/255, blue: 120/255, alpha: 1) }
-//    }
-//}
 
-enum constants {
-    static let backgroundColor = UIColor(red: 8/255, green: 46/255, blue: 120/255, alpha: 1)
-    static let margin = 10
-}
 
 class DetailViewController: UIViewController {
     var movie: Movie
     let movieImage = UIImageView()
     let movieTitle = UILabel()
-    
+    private enum Constants {
+        static let backgroundColor = UIColor(red: 8/255, green: 46/255, blue: 120/255, alpha: 1)
+        static let margin = CGFloat(10)
+        static let cornerRadius = CGFloat(5)
+    }
     
     init(movie: Movie) {
         self.movie = movie
@@ -41,9 +36,9 @@ class DetailViewController: UIViewController {
     
     func setUpView() {
         loadData()
-        imageLayout()
-        titleLayout()
-        view.backgroundColor = constants.backgroundColor
+        setImageLayout()
+        setTitleLayout()
+        view.backgroundColor = Constants.backgroundColor
         view.addSubview(movieImage)
         view.addSubview(movieTitle)
         setImageConstraints()
@@ -63,7 +58,7 @@ class DetailViewController: UIViewController {
         movieImage.translatesAutoresizingMaskIntoConstraints = false
         let margins = view.layoutMarginsGuide
         NSLayoutConstraint.activate([
-            movieImage.topAnchor.constraint(equalTo: margins.topAnchor, constant: CGFloat(constants.margin)),
+            movieImage.topAnchor.constraint(equalTo: margins.topAnchor, constant: Constants.margin),
             movieImage.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
             movieImage.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
         ])
@@ -74,19 +69,19 @@ class DetailViewController: UIViewController {
         movieTitle.translatesAutoresizingMaskIntoConstraints = false
         let margins = view.layoutMarginsGuide
         NSLayoutConstraint.activate([
-            movieTitle.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: CGFloat(constants.margin)),
+            movieTitle.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: Constants.margin),
             movieTitle.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
             movieTitle.trailingAnchor.constraint(equalTo: margins.trailingAnchor),
         ])
         
     }
     
-    func imageLayout() {
-        movieImage.layer.cornerRadius = 5
+    func setImageLayout() {
+        movieImage.layer.cornerRadius = Constants.cornerRadius
         movieImage.clipsToBounds = true
     }
     
-    func titleLayout() {
+    func setTitleLayout() {
         movieTitle.textColor = .white
         movieTitle.numberOfLines = 0
         movieTitle.textAlignment = .center

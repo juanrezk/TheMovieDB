@@ -8,6 +8,12 @@
 import UIKit
 
 class MovieListViewController: UIViewController {
+    private enum Constants {
+        static let backgroundColor = UIColor(red: 8/255, green: 46/255, blue: 120/255, alpha: 1)
+        static let margin = CGFloat(10)
+        static let cornerRadius = CGFloat(5)
+        static let rowHeight = CGFloat(150)
+    }
     @IBOutlet weak var logoImage: UIImageView!
     lazy var tableview: UITableView = {
         let table = UITableView()
@@ -16,7 +22,7 @@ class MovieListViewController: UIViewController {
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView()
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
-        collectionView.backgroundColor = constants.backgroundColor
+        collectionView.backgroundColor = Constants.backgroundColor
         return collectionView
     }()
     let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
@@ -67,10 +73,10 @@ class MovieListViewController: UIViewController {
     
     func configureTableView() {
         view.addSubview(tableview)
-        tableview.layer.cornerRadius = 5
+        tableview.layer.cornerRadius = Constants.cornerRadius
         tableview.clipsToBounds = true
-        tableview.backgroundColor = constants.backgroundColor
-        tableview.rowHeight = 150
+        tableview.backgroundColor = Constants.backgroundColor
+        tableview.rowHeight = Constants.rowHeight
         setTableViewConstraints()
         tableview.register(MovieTableViewCell.self, forCellReuseIdentifier: "movieCell")
         tableview.dataSource = self
@@ -81,7 +87,7 @@ class MovieListViewController: UIViewController {
     func setTableViewConstraints() {
         tableview.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableview.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 10),
+            tableview.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: Constants.margin),
             tableview.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             tableview.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
@@ -106,7 +112,7 @@ class MovieListViewController: UIViewController {
     func setCollectionViewConstraints() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 10),
+            collectionView.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: Constants.margin),
             collectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2/3),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
             collectionView.widthAnchor.constraint(equalTo: view.widthAnchor)

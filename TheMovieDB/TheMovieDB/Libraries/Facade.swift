@@ -21,7 +21,7 @@ final class Facade {
     func retrieveData(result: @escaping (Result<intermediaryJson, Error>) -> Void) {
         networkManager.retrieveMovies(completion: result)
     }
-    func loadImgFromCache(_ urlString: String, result: @escaping (Result<UIImage, Error>) -> Void) {
+    func loadMovieImage(_ urlString: String, result: @escaping (Result<UIImage, Error>) -> Void) {
         networkManager.loadImageUsingCacheWithUrlString(urlString, completion: result)
     }
     

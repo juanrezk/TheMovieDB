@@ -11,13 +11,13 @@ import UIKit
 extension UIImageView {
     func loadImage(url: String) {
         self.image = UIImage(named: "loading")
-    Facade.shared.loadImgFromCache(url) { (result) in
-        switch result {
-        case .success(let image):
-            self.image = image
-        case .failure(_):
-            print("Fallo")
+        Facade.shared.loadMovieImage(url) { (result) in
+            switch result {
+            case .success(let image):
+                self.image = image
+            case .failure(_):
+                self.image = nil
+            }
         }
     }
-}
 }

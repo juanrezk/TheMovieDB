@@ -8,7 +8,10 @@
 import UIKit
 
 class MovieTableViewCell: UITableViewCell {
-    
+    private enum Constants {
+        static let backgroundColor = UIColor(red: 8/255, green: 46/255, blue: 120/255, alpha: 1)
+        static let cornerRadius = CGFloat(10)
+    }
     var movieTitle = UILabel()
     var movieImage = UIImageView()
     var postImageURL: String? {
@@ -38,7 +41,7 @@ class MovieTableViewCell: UITableViewCell {
     }
     
     func setUp() {
-        backgroundColor = constants.backgroundColor
+        backgroundColor = Constants.backgroundColor
         addSubview(movieTitle)
         addSubview(movieImage)
         configureLabel()
@@ -48,7 +51,7 @@ class MovieTableViewCell: UITableViewCell {
     }
     
     func configureImageView() {
-        movieImage.layer.cornerRadius = 10
+        movieImage.layer.cornerRadius = Constants.cornerRadius
         movieImage.clipsToBounds = true
     }
     
