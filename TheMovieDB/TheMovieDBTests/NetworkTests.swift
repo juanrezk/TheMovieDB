@@ -11,7 +11,7 @@ import XCTest
 class NetworkTests: XCTestCase {
     func testRetrieveMovies() throws {
         let myExpectation = expectation(description: "task in background")
-        let results = NetworkManager().retrieveMovies { (results) in
+        let results = Facade.shared.retrieveData { (results) in
             switch results {
             case .success(let movies):
                 XCTAssertNotNil(results)
@@ -27,7 +27,7 @@ class NetworkTests: XCTestCase {
     func testImageLoading() throws {
         let myExpectation = expectation(description: "task in background")
         let url = "/xBKGJQsAIeweesB79KC89FpBrVr.jpg"
-        let results = NetworkManager().loadImageUsingCacheWithUrlString(url) { (results) in
+        let results = Facade.shared.loadMovieImage(url) { (results) in
             switch results {
             case .success(let movie):
                 XCTAssertNotNil(results)

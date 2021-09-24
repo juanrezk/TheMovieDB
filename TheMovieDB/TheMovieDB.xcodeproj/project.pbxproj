@@ -21,6 +21,7 @@
 		1D7AA7D526DFBFA9004260FE /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7AA7D426DFBFA9004260FE /* MovieTableViewCell.swift */; };
 		1D7AA7D726DFC37D004260FE /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7AA7D626DFC37D004260FE /* Movie.swift */; };
 		1D7AA7DA26DFF9C0004260FE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7AA7D926DFF9C0004260FE /* NetworkManager.swift */; };
+		1D99A80C26FE21EC00CCADEE /* CellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D99A80B26FE21EC00CCADEE /* CellTests.swift */; };
 		1DD2453126F8D94F004281C7 /* ImageSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2453026F8D94F004281C7 /* ImageSetter.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +54,7 @@
 		1D7AA7D426DFBFA9004260FE /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		1D7AA7D626DFC37D004260FE /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		1D7AA7D926DFF9C0004260FE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		1D99A80B26FE21EC00CCADEE /* CellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellTests.swift; sourceTree = "<group>"; };
 		1DD2453026F8D94F004281C7 /* ImageSetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSetter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,6 +116,7 @@
 				02BCD44126B81F04003F3144 /* TheMovieDBTests.swift */,
 				02BCD44326B81F04003F3144 /* Info.plist */,
 				1D4CA47726FC57DC00637796 /* NetworkTests.swift */,
+				1D99A80B26FE21EC00CCADEE /* CellTests.swift */,
 			);
 			path = TheMovieDBTests;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D4CA47826FC57DC00637796 /* NetworkTests.swift in Sources */,
+				1D99A80C26FE21EC00CCADEE /* CellTests.swift in Sources */,
 				02BCD44226B81F04003F3144 /* TheMovieDBTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

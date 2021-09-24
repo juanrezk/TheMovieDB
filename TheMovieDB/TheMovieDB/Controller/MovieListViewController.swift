@@ -14,17 +14,20 @@ class MovieListViewController: UIViewController {
         static let cornerRadius = CGFloat(5)
         static let rowHeight = CGFloat(150)
     }
+    
     @IBOutlet weak var logoImage: UIImageView!
     lazy var tableview: UITableView = {
         let table = UITableView()
         return table
     }()
+    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView()
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
         collectionView.backgroundColor = Constants.backgroundColor
         return collectionView
     }()
+    
     let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
     var movies: [Movie] = []
     
