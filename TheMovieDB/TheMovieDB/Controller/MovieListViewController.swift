@@ -146,11 +146,6 @@ extension MovieListViewController: UITableViewDataSource, UITableViewDelegate {
         goToDetailView(indexPath: indexPath)
     }
     
-//    func loadTableCells(cell: MovieTableViewCell, movie: Movie) -> UITableViewCell {
-//        cell.movieTitle.text = movie.title
-//        cell.postImageURL = movie.backdropPath ?? ""
-//        return cell
-//    }
 }
 
 extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -171,10 +166,5 @@ extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDat
         goToDetailView(indexPath: indexPath)
     }
     
-    func loadCollectionCells(cell: CollectionViewCell, movie: Movie) -> UICollectionViewCell {
-        cell.movieTitle.text = movie.title
-        cell.postImageURL = movie.backdropPath ?? ""
-        return cell
-    }
 }
 
