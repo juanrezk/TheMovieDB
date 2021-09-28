@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+
 class MovieListViewController: UIViewController {
     private enum Constants {
         static let backgroundColor = UIColor(red: 8/255, green: 46/255, blue: 120/255, alpha: 1)
@@ -23,8 +25,6 @@ class MovieListViewController: UIViewController {
     
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView()
-        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
-        collectionView.backgroundColor = Constants.backgroundColor
         return collectionView
     }()
     
@@ -102,7 +102,6 @@ class MovieListViewController: UIViewController {
         layout.minimumInteritemSpacing = 1
         layout.itemSize = CGSize(width: (view.frame.size.width/3) - 4, height: (view.frame.size.width/3) - 4)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -140,19 +139,18 @@ extension MovieListViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell") as? MovieTableViewCell else {
             return UITableViewCell()
         }
-        return loadTableCells(cell: cell, movie: movie)
+         cell.setUp(movie: movie)
+         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         goToDetailView(indexPath: indexPath)
     }
     
-    func loadTableCells(cell: MovieTableViewCell, movie: Movie) -> UITableViewCell {
-        cell.movieTitle.text = movie.title
-        cell.postImageURL = movie.backdropPath ?? ""
-        return cell
-    }
-    
-    
+//    func loadTableCells(cell: MovieTableViewCell, movie: Movie) -> UITableViewCell {
+//        cell.movieTitle.text = movie.title
+//        cell.postImageURL = movie.backdropPath ?? ""
+//        return cell
+//    }
 }
 
 extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -165,7 +163,8 @@ extension MovieListViewController: UICollectionViewDelegate, UICollectionViewDat
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as? CollectionViewCell else {
             return UICollectionViewCell()
         }
-        return loadCollectionCells(cell: cell, movie: movie)
+        cell.setUp(movie: movie)
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -12,6 +12,7 @@ class NetworkTests: XCTestCase {
     func testRetrieveMovies() throws {
         let myExpectation = expectation(description: "task in background")
         let results = Facade.shared.retrieveData { (results) in
+            myExpectation.fulfill()
             switch results {
             case .success(let movies):
                 XCTAssertNotNil(results)
@@ -19,7 +20,7 @@ class NetworkTests: XCTestCase {
             case .failure(let error):
                 XCTAssertNotNil(error)
             }
-            myExpectation.fulfill()
+
         }
         waitForExpectations(timeout: 3, handler: nil)
     }
@@ -28,6 +29,7 @@ class NetworkTests: XCTestCase {
         let myExpectation = expectation(description: "task in background")
         let url = "/xBKGJQsAIeweesB79KC89FpBrVr.jpg"
         let results = Facade.shared.loadMovieImage(url) { (results) in
+            myExpectation.fulfill()
             switch results {
             case .success(let movie):
                 XCTAssertNotNil(results)
@@ -35,7 +37,6 @@ class NetworkTests: XCTestCase {
             case .failure(let error):
                 XCTAssertNotNil(error)
             }
-            myExpectation.fulfill()
         }
         waitForExpectations(timeout: 3, handler: nil)
     }

@@ -13,11 +13,13 @@ class DetailViewController: UIViewController {
     var movie: Movie
     let movieImage = UIImageView()
     let movieTitle = UILabel()
+    let movieOverview = UILabel()
     private enum Constants {
         static let backgroundColor = UIColor(red: 8/255, green: 46/255, blue: 120/255, alpha: 1)
         static let margin = CGFloat(10)
         static let cornerRadius = CGFloat(5)
     }
+    let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
     
     init(movie: Movie) {
         self.movie = movie
@@ -36,17 +38,18 @@ class DetailViewController: UIViewController {
     
     func setUpView() {
         loadData()
-        setImageLayout()
-        setTitleLayout()
-        view.backgroundColor = Constants.backgroundColor
         view.addSubview(movieImage)
         view.addSubview(movieTitle)
-        setImageConstraints()
-        setTitleConstraints()
+        view.addSubview(movieOverview)
+        setImageLayout()
+        setTitleLayout()
+        setOverviewLayout()
+        view.backgroundColor = Constants.backgroundColor
     }
     
     func loadData() {
         movieTitle.text = movie.title
+        movieOverview.text = movie.overview
         if let url = movie.backdropPath {
             movieImage.loadImage(url: url)
         } else {
@@ -76,15 +79,46 @@ class DetailViewController: UIViewController {
         
     }
     
+    func setOverviewConstraints() {
+        movieOverview.translatesAutoresizingMaskIntoConstraints = false
+        let margins = view.layoutMarginsGuide
+        NSLayoutConstraint.activate([
+            movieOverview.topAnchor.constraint(equalTo: movieTitle.bottomAnchor, constant: Constants.margin),
+            movieOverview.leadingAnchor.constraint(equalTo: margins.leadingAnchor),
+            movieOverview.trailingAnchor.constraint(equalTo: margins.trailingAnchor)
+        ])
+    }
+    
+    func setOverviewLayout() {
+        movieOverview.textColor = .white
+        movieOverview.numberOfLines = 0
+        movieOverview.textAlignment = .center
+        movieOverview.adjustsFontSizeToFitWidth = true
+        if deviceIdiom == .pad {
+            movieOverview.font = UIFont(name: "Copperplate", size: 25)
+        } else {
+            movieOverview.font = UIFont(name: "Copperplate", size: 15)
+        }
+        setOverviewConstraints()
+    }
+    
     func setImageLayout() {
         movieImage.layer.cornerRadius = Constants.cornerRadius
         movieImage.clipsToBounds = true
+        movieImage.layer.borderWidth = 2
+        movieImage.layer.borderColor = UIColor.white.cgColor
+        setImageConstraints()
     }
     
     func setTitleLayout() {
         movieTitle.textColor = .white
         movieTitle.numberOfLines = 0
         movieTitle.textAlignment = .center
+        if deviceIdiom == .pad {
         movieTitle.font = UIFont(name: "Copperplate", size: 60)
+        } else {
+            movieTitle.font = UIFont(name: "Copperplate", size: 35)
+        }
+        setTitleConstraints()
     }
 }
